@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-// import logo from './logo.svg';
 import './App.css';
 
 function App() {
@@ -9,23 +8,9 @@ function App() {
   // console.log(wikiLinks);
   // console.log(wikiLinkTexts);
 
-  // const searchHandler = (e) => {
-  //   let str = e.target.value;
-  //   console.log(e.target.value ? e.target.value : 'hahahaha' );
-  //   //make api call
-  //   let url = 'https://en.wikipedia.org/w/api.php?&origin=*&format=json&action=opensearch&search=' + str ;
-
-  //   fetch(url)
-  //   .then(data => {
-  //     return data.json();
-  //   }).then(json => {
-  //     console.log(json);
-  //   })
-
-  // };
   function makeApiCall(e) {
     let str = e.target.value;
-    // console.log(e.target.value ? e.target.value : 'hahahaha' );
+    // console.log(e.target.value ? e.target.value : 'Not getting Event' );
     if(str) {
     let url = 'https://en.wikipedia.org/w/api.php?&origin=*&format=json&action=opensearch&search=' + str ;
 
@@ -55,7 +40,7 @@ function App() {
     
   };
 
-  // no debounce or throttle
+  // No debounce or throttle
   // const searchHandler = (e) => {
   //   makeApiCall(e);
   // };
@@ -78,10 +63,10 @@ function App() {
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
-            <h3>Wiki Links App</h3>
+            <h3>Wiki Links Search App</h3>
           </div>
           <div className="col-sm-12">
-            <input type="text" id="search-text" onChange={searchHandler} />
+            <input type="text" class="search-text" onChange={searchHandler} />
           </div>
         </div>
 
@@ -90,7 +75,7 @@ function App() {
             {
               wikiLinkTexts && wikiLinkTexts.map((item, index) => 
                 <>
-                <a href={wikiLinks[index] ? wikiLinks[index] : '#'} target="_blank">{item}</a>
+                <a href={wikiLinks[index]} target="_blank">{item}</a>
                 <br/>
                 </>
               )
