@@ -1,23 +1,105 @@
-import logo from './logo.svg';
+import React, {useState} from "react";
+// import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const [wikiLinks, setWikiLinks] = useState([]);
+  const [wikiLinkTexts, setWikiLinkTexts] = useState([]);
+
+  // console.log(wikiLinks);
+  // console.log(wikiLinkTexts);
+
+  // const searchHandler = (e) => {
+  //   let str = e.target.value;
+  //   console.log(e.target.value ? e.target.value : 'hahahaha' );
+  //   //make api call
+  //   let url = 'https://en.wikipedia.org/w/api.php?&origin=*&format=json&action=opensearch&search=' + str ;
+
+  //   fetch(url)
+  //   .then(data => {
+  //     return data.json();
+  //   }).then(json => {
+  //     console.log(json);
+  //   })
+
+  // };
+  function makeApiCall(e) {
+    let str = e.target.value;
+    // console.log(e.target.value ? e.target.value : 'hahahaha' );
+    if(str) {
+    let url = 'https://en.wikipedia.org/w/api.php?&origin=*&format=json&action=opensearch&search=' + str ;
+
+    fetch(url)
+    .then(data => {
+      return data.json();
+    }).then(json => {
+      //console.log(json);
+      setWikiLinks(wikiLinks => json[3]);
+      setWikiLinkTexts(wikiLinkTexts => json[1]);
+    })
+    }
+    else {
+      setWikiLinks(wikiLinks => []);
+      setWikiLinkTexts(wikiLinkTexts => []);
+    }
+  }
+
+  // Debounce fn
+  var timer;
+  const searchHandler = (e) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      makeApiCall(e);
+      timer = undefined;
+    }, 500);
+    
+  };
+
+  // no debounce or throttle
+  // const searchHandler = (e) => {
+  //   makeApiCall(e);
+  // };
+
+
+  // Throttle Fn
+  // var timer;
+  // const searchHandler = (e) => {
+  //   if(timer) {
+  //     return
+  //   }
+  //   timer = setTimeout(() => {
+  //     makeApiCall(e);
+  //     timer = undefined;
+  //   }, 2000);
+  // };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-12">
+            <h3>Wiki Links App</h3>
+          </div>
+          <div className="col-sm-12">
+            <input type="text" id="search-text" onChange={searchHandler} />
+          </div>
+        </div>
+
+        <div className="row display_links">
+          <div className="col-sm-12">
+            {
+              wikiLinkTexts && wikiLinkTexts.map((item, index) => 
+                <>
+                <a href={wikiLinks[index] ? wikiLinks[index] : '#'} target="_blank">{item}</a>
+                <br/>
+                </>
+              )
+            }
+          </div>
+        </div>
+      </div>
+
+
     </div>
   );
 }
