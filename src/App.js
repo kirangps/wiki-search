@@ -40,23 +40,7 @@ function App() {
     
   };
 
-  // No debounce or throttle
-  // const searchHandler = (e) => {
-  //   makeApiCall(e);
-  // };
-
-
-  // Throttle Fn
-  // var timer;
-  // const searchHandler = (e) => {
-  //   if(timer) {
-  //     return
-  //   }
-  //   timer = setTimeout(() => {
-  //     makeApiCall(e);
-  //     timer = undefined;
-  //   }, 2000);
-  // };
+  
 
   return (
     <div className="App">
